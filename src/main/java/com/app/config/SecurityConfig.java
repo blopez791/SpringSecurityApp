@@ -1,5 +1,6 @@
 package com.app.config;
 
+import com.app.service.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,11 +17,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +46,10 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.GET,"/auth/hello").permitAll();
                     //configurar los privados
                     http.requestMatchers(HttpMethod.GET,"/auth/hello-secured").hasAuthority("CREATE");
+                    http.requestMatchers(HttpMethod.GET,"/auth/hello-secured").hasAnyAuthority("CREATE","READ"); //se usa hasAnyAuthority para multiples permisos
+
+                    //tambien se puede configurar acceso por rol o roles
+                    http.requestMatchers(HttpMethod.GET,"/auth/hello-secured").hasAnyRole("ADMIN");
 
                     //configurar los no especificados
                     http.anyRequest().denyAll();
@@ -67,15 +74,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider(UserDetailServiceImpl userDetailService){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(userDetailsService());
+        provider.setUserDetailsService(userDetailService);
 
         return provider;
     }
 
-    @Bean
+    /*@Bean
     public UserDetailsService userDetailsService(){
         List<UserDetails> userDetailsList = new ArrayList<>();
 
@@ -92,11 +99,17 @@ public class SecurityConfig {
                 .build());
 
         return new InMemoryUserDetailsManager(userDetailsList);
-    }
+    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder(){
         //NoOpPasswordEncoder solo se debe usar para hacer pruebas
-        return NoOpPasswordEncoder.getInstance();
+        //return NoOpPasswordEncoder.getInstance();
+
+        return new BCryptPasswordEncoder();
     }
+
+    /*public static void main(String[] args){
+        System.out.println(new BCryptPasswordEncoder().encode("1234"));
+    }*/
 }

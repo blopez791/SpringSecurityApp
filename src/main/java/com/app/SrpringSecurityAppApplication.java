@@ -69,7 +69,7 @@ public class SrpringSecurityAppApplication {
 			/*CREAR USUARIOS*/
 			UserEntity userSantiago = UserEntity.builder()
 					.username("santiago")
-					.password("1234")
+					.password("$2a$10$pLT9pn1ExbtRAPZsetqN1OMvQuGebr//DmQI9hvIdpJuuvDUpDbEe")
 					.isEnable(true)
 					.accountNoExpired(true)
 					.accountNoLocked(true)
@@ -79,7 +79,7 @@ public class SrpringSecurityAppApplication {
 
 			UserEntity userDaniel = UserEntity.builder()
 					.username("daniel")
-					.password("1234")
+					.password("$2a$10$pLT9pn1ExbtRAPZsetqN1OMvQuGebr//DmQI9hvIdpJuuvDUpDbEe")
 					.isEnable(true)
 					.accountNoExpired(true)
 					.accountNoLocked(true)
@@ -89,7 +89,7 @@ public class SrpringSecurityAppApplication {
 
 			UserEntity userAndrea = UserEntity.builder()
 					.username("andrea")
-					.password("1234")
+					.password("$2a$10$pLT9pn1ExbtRAPZsetqN1OMvQuGebr//DmQI9hvIdpJuuvDUpDbEe")
 					.isEnable(true)
 					.accountNoExpired(true)
 					.accountNoLocked(true)
@@ -99,7 +99,7 @@ public class SrpringSecurityAppApplication {
 
 			UserEntity userAngie = UserEntity.builder()
 					.username("angie")
-					.password("1234")
+					.password("$2a$10$pLT9pn1ExbtRAPZsetqN1OMvQuGebr//DmQI9hvIdpJuuvDUpDbEe")
 					.isEnable(true)
 					.accountNoExpired(true)
 					.accountNoLocked(true)
